@@ -13,7 +13,7 @@ public class WeatherEntity {
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private String id;
-    private String requestCityName;
+    private String requestedCityName;
     private String cityName;
     private String country;
     private Integer temperature;
@@ -24,9 +24,9 @@ public class WeatherEntity {
 
     }
 
-    public WeatherEntity(String id, String requestCityName, String cityName, String country, Integer temperature, LocalDateTime updatedTime, LocalDateTime responseLocalTime) {
+    public WeatherEntity(String id, String requestedCityName, String cityName, String country, Integer temperature, LocalDateTime updatedTime, LocalDateTime responseLocalTime) {
         this.id = id;
-        this.requestCityName = requestCityName;
+        this.requestedCityName = requestedCityName;
         this.cityName = cityName;
         this.country = country;
         this.temperature = temperature;
@@ -34,8 +34,8 @@ public class WeatherEntity {
         this.responseLocalTime = responseLocalTime;
     }
 
-    public WeatherEntity(String requestCityName, String cityName, String country, Integer temperature, LocalDateTime updatedTime, LocalDateTime responseLocalTime) {
-        this.requestCityName = requestCityName;
+    public WeatherEntity(String requestedCityName, String cityName, String country, Integer temperature, LocalDateTime updatedTime, LocalDateTime responseLocalTime) {
+        this.requestedCityName = requestedCityName;
         this.cityName = cityName;
         this.country = country;
         this.temperature = temperature;
@@ -47,8 +47,8 @@ public class WeatherEntity {
         return id;
     }
 
-    public String getRequestCityName() {
-        return requestCityName;
+    public String getRequestedCityName() {
+        return requestedCityName;
     }
 
     public String getCityName() {
