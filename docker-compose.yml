@@ -6,7 +6,7 @@ services:
     build:
       context: .
     ports:
-      - "9595-9597:8080"
+      - "8080"
     deploy:
       mode: replicated
       replicas: 3

@@ -26,6 +26,7 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
+
 import static com.cengizhanyavuz.weather.constants.Constants.*;
 
 @Service
@@ -37,14 +38,12 @@ public class WeatherService {
     private final WeatherRepository weatherRepository;
     private final RestTemplate restTemplate;
     private final ObjectMapper objectMapper = new ObjectMapper();
-    private final Clock clock;
 
     public WeatherService(WeatherRepository weatherRepository,
-                          RestTemplate restTemplate,
-                          Clock clock) {
+                          RestTemplate restTemplate) {
         this.weatherRepository = weatherRepository;
         this.restTemplate = restTemplate;
-        this.clock = clock;
+
     }
 
     @Cacheable(key = "#city")
@@ -67,7 +66,6 @@ public class WeatherService {
         logger.info("Requesting weather stack api for city: " + city);
         String url = getWeatherStackUrl(city);
         ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
-
         try {
             WeatherResponse weatherResponse = objectMapper.readValue(responseEntity.getBody(), WeatherResponse.class);
             return WeatherDto.convert(saveWeatherEntity(city, weatherResponse));
@@ -84,7 +82,7 @@ public class WeatherService {
     @CacheEvict(allEntries = true)
     @PostConstruct
     @Scheduled(fixedRateString = "${weather-stack.cache-ttl}")
-    public void clearCache(){
+    public void clearCache() {
         logger.info("Caches are cleared");
     }
 
@@ -105,7 +103,7 @@ public class WeatherService {
     }
 
     private LocalDateTime getLocalDateTimeNow() {
-        Instant instant = clock.instant();
+        Instant instant = Clock.systemDefaultZone().instant();
         return LocalDateTime.ofInstant(
                 instant,
                 Clock.systemDefaultZone().getZone());
